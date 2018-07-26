@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+		/*body{
+			margin-top: 100px;
+			margin-left: 450px;
+			background: yellow;
+			width: 500px;
+			height: 500px;
+		}*/
+		
+		.container{
+			overflow: hidden;
+			margin-top: 100px;
+			margin-left: 450px;
+			background: grey;
+			width: 500px;
+			height: 400px;
+		}
+		.tab{
+			float: left;
+			margin-left:20px;
+		}
+		.tab2{
+			margin-left: 50px;
+		}
+		.tab2 input{
+			display: block;
+			margin-bottom: 20px;
+		}
+
+		tr{
+			transition: all .25s ease-in-out;
+		}
+
+		tr:hover{
+			background: #eee;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 style="text-align: center;">Student's Registration Form</h1>
+		<div class=" tab tab1">
+			<table id="table" border="1">
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Age</th>
+				</tr>
+				<tr>
+					<td>aa</td>
+					<td>bb</td>
+					<td>20</td>
+				</tr>
+				<tr>
+					<td>xy</td>
+					<td>xy</td>
+					<td>22</td>
+				</tr>
+				<tr>
+					<td>pq</td>
+					<td>rs</td>
+					<td>23</td>
+				</tr>
+			</table>
+		</div>
+		<div class=" tab tab2">
+			First Name:<input type="text" name="fname" id="fname">
+			Last Name:<input type="text" name="lname" id="lname">
+			Age:<input type="number" name="age" id="age">
+            <button onclick="HtmlTableRow();">Add</button>
+			<button onclick="editHtmlTableSelectedRow()">Edit</button>
+			<button onclick="removeSelectedRow()">Remove</button>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		
+		var rIndex,table = document.getElementById("table");
+
+		//check the empty input
+
+		function checkEmptyInput()
+		{
+			var isEmpty = false,
+			fname = document.getElementById("fname").value,
+			lname = document.getElementById("lname").value,
+			age = document.getElementById("age").value;
+
+			if(fname === "")
+			{
+				alert("First Name cannot be empty");
+				isEmpty = true;
+			}
+
+			else if(lname === "")
+			{
+				alert("Last Name cannot be empty");
+				isEmpty = true;
+			}
+
+			else if(age === "")
+			{
+				alert("Age cannot be empty");
+				isEmpty = true;
+			}
+			return isEmpty;
+
+		}
+		//Add Row
+
+		function HtmlTableRow()
+		{
+			//get the table by id
+			//create new row and cells
+			//get value from input text
+			//set the values into row cell's
+			if(!checkEmptyInput()){
+			var newRow = table.insertRow(table.length),
+			cell1 = newRow.insertCell(0),
+			cell2 = newRow.insertCell(1),
+			cell3 = newRow.insertCell(2),
+			fname = document.getElementById("fname").value;
+			lname = document.getElementById("lname").value;
+			age = document.getElementById("age").value;
+
+			cell1.innerHTML=fname;
+			cell2.innerHTML=lname;
+			cell3.innerHTML=age;
+			
+			//call the function to set the event to new row
+		    SelectedRowToInput();
+		    }			
+		}
+
+		//display selected row data into input text
+		function SelectedRowToInput()
+		{
+			
+			for(var i=1;i<table.rows.length;i++)
+			{
+				table.rows[i].onclick = function()
+				{
+					//get the selected row index;
+					rIndex=this.rowIndex;
+					//console.log(rIndex);
+					document.getElementById("fname").value = this.cells[0].innerHTML;
+					document.getElementById("lname").value = this.cells[1].innerHTML;
+					document.getElementById("age").value = this.cells[2].innerHTML;
+				}
+			}
+		}
+		SelectedRowToInput();
+
+		function editHtmlTableSelectedRow()
+		{
+			var fname=document.getElementById("fname").value;
+				lname=document.getElementById("lname").value;
+				age=document.getElementById("age").value;
+
+			if(!checkEmptyInput()){
+				table.rows[rIndex].cells[0].innerHTML=fname;
+				table.rows[rIndex].cells[1].innerHTML=lname;
+				table.rows[rIndex].cells[2].innerHTML=age;
+			}
+		}
+
+		function removeSelectedRow()
+		{
+			table.deleteRow(rIndex);
+
+			//clear input text
+			document.getElementById("fname").value = "";
+			document.getElementById("lname").value = "";
+			document.getElementById("age").value = "";
+		}
+	</script>
+</body>
+</html>
